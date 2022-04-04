@@ -1,7 +1,7 @@
+#include "MyFunctionalTest.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "MyFunctionalTest.h"
 
 void AMyFunctionalTest::BeginPlay()
 {
