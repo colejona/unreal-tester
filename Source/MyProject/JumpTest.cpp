@@ -10,6 +10,9 @@ void AJumpTest::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// TODO: Left off here -- need to reset the player/game/session/world state before each test.
+	//  After the jump test, the player is still in the air when the next test starts.
+
 	Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
 	if (!Player)
