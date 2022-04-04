@@ -12,31 +12,31 @@ void AJumpTest::BeginPlay()
 
 	Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
-	if (Player)
+	if (!Player)
 	{
-		InitialLocation = Player->GetActorLocation();
+		FinishTest(EFunctionalTestResult::Failed, FString("Invalid player character!"));
 	}
+
+	if (Player->JumpCurrentCount != 0)
+	{
+		FinishTest(EFunctionalTestResult::Failed, FString("Player jump count should be 0"));
+	}
+
+	Player->Jump();
 }
 
 void AJumpTest::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (!Player)
+	if (PlayerHasJumped())
 	{
-		FinishTest(EFunctionalTestResult::Failed, FString("Invalid player character!"));
-	}
-
-	//Go forward until we reach our destination
-	Player->AddMovementInput(Player->GetActorForwardVector());
-	if (TraveledTotalDistance())
-	{
-		FinishTest(EFunctionalTestResult::Succeeded,FString("Traveled required units!"));
+		FinishTest(EFunctionalTestResult::Succeeded,FString("Reached jump apex!"));
 		UKismetSystemLibrary::QuitGame(GetWorld(),UGameplayStatics::GetPlayerController(GetWorld(),0),EQuitPreference::Quit,false);
 	}
 }
 
-bool AJumpTest::TraveledTotalDistance() const
+bool AJumpTest::PlayerHasJumped() const
 {
-	return (Player) ? (FVector::Distance(Player->GetActorLocation(), InitialLocation + Player->GetActorForwardVector() * MovementDistance) <= DistanceThreshold) : false;
+	return Player->JumpCurrentCount > 0;
 }

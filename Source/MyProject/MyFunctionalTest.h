@@ -6,7 +6,7 @@
  * A functional test that moves the player character forward
  */
 UCLASS()
-class AMyFunctionalTest : public AFunctionalTest
+class MYPROJECT_API AMyFunctionalTest : public AFunctionalTest
 {
 	GENERATED_BODY()
 
