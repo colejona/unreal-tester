@@ -20,19 +20,17 @@ void AMyFunctionalTest::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (Player)
-	{
-		//Go forward until we reach our destination
-		Player->AddMovementInput(Player->GetActorForwardVector());
-		if (TraveledTotalDistance())
-		{
-			FinishTest(EFunctionalTestResult::Succeeded,FString("Traveled required units!"));
-			UKismetSystemLibrary::QuitGame(GetWorld(),UGameplayStatics::GetPlayerController(GetWorld(),0),EQuitPreference::Quit,false);
-		}
-	}
-	else
+	if (!Player)
 	{
 		FinishTest(EFunctionalTestResult::Failed, FString("Invalid player character!"));
+	}
+
+	//Go forward until we reach our destination
+	Player->AddMovementInput(Player->GetActorForwardVector());
+	if (TraveledTotalDistance())
+	{
+		FinishTest(EFunctionalTestResult::Succeeded,FString("Traveled required units!"));
+		UKismetSystemLibrary::QuitGame(GetWorld(),UGameplayStatics::GetPlayerController(GetWorld(),0),EQuitPreference::Quit,false);
 	}
 }
 
